@@ -3,6 +3,7 @@ import numpy as np
 import glob
 import os
 from datetime import date, timedelta
+from functions.drive_utils import download_all_csvs_from_drive
 
 def hhmm_para_hhmmss(x):
     if pd.isna(x):
@@ -93,12 +94,26 @@ def gerar_bd_completo():
     #     print("Erro: Arquivo final.csv não encontrado.")
     #     return None
 
-    #df_final = pd.read_csv('final.csv', sep=';')
+    #df_final = pd.read_csv('final.csv', sep=';', encoding='utf-8-sig')
     df_final = pd.read_excel("final_teste.xlsx")
     
 
-    # Caminho da pasta de rede
-    folder_path = r"G:\Drives compartilhados\PCP\Time Inovação\Soluções\BI - Painel RH\Bases\Intervalos"
+    # Caminho da pasta de rede e Integração API Google Drive
+    folder_id = "10EBQJVYN_MRxd0rQtBOKB7kwb0Ngu0-R"
+    path_script = os.path.dirname(os.path.abspath(__file__))
+    download_dir = os.path.join(path_script, "downloads", "bases_intervalos")
+    
+    folder_path = download_all_csvs_from_drive(folder_id, download_dir)
+    
+    if folder_path is None:
+        fallback_path = r"G:\Drives compartilhados\PCP\Time Inovação\Soluções\BI - Painel RH\Bases\Intervalos"
+        if os.path.exists(fallback_path):
+            print("Aviso: Falha ao baixar bases de Intervalos do Drive. Usando caminho de rede como fallback.")
+            folder_path = fallback_path
+        else:
+            print(f"Erro crítico: Falha ao baixar bases de Intervalos do Drive e fallback {fallback_path} inacessível.")
+            folder_path = "" # Evita erro path vazio no os.path.join
+            
     all_files = glob.glob(os.path.join(folder_path, "*.csv"))
 
     df_list = []

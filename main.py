@@ -13,13 +13,17 @@ from colorama import Fore, init
 from datetime import datetime, timedelta
 from playwright.sync_api import sync_playwright
 from google.oauth2.service_account import Credentials
+import google.auth.transport.requests
+import io
 
 from functions.delete_folders import delete_folders
 from functions.clear_terminal import clear_terminal
+from functions.drive_utils import download_latest_csvs_from_drive, upload_file_to_drive
 
 from src.main_etp2 import main_etapa2
 
-os.system('title ROBÔ - EMAIL INFRAÇÕES') 
+if os.name == 'nt':
+    os.system('title ROBÔ - EMAIL INFRAÇÕES') 
 
 """
 Config
@@ -98,16 +102,18 @@ operations = [
 ]
 
 # Verificar se a pasta dowloads já existe
-downloads_folder = 'downloads/fotos/'
+downloads_folder = os.path.join(path_script, 'downloads', 'fotos')
 delete_folders(downloads_folder)
 
 # Verificar se a pasta dowloads já existe
-downloads_folder = 'downloads/jornadas/'
+downloads_folder = os.path.join(path_script, 'downloads', 'jornadas')
 delete_folders(downloads_folder)
 
 # Criar pasta de downloads se não existir
-download_dir = os.path.join(os.path.dirname(__file__), "downloads")
+download_dir = os.path.join(path_script, "downloads")
 os.makedirs(download_dir, exist_ok=True)
+os.makedirs(os.path.join(download_dir, "jornadas"), exist_ok=True)
+os.makedirs(os.path.join(download_dir, "fotos"), exist_ok=True)
 
 
 """
@@ -372,7 +378,20 @@ def mark_delays_in_csv(df_csvs, df_delays):
 excel_files = get_files("downloads/jornadas/", ".csv")
 df_delays = process_delays(excel_files)
 df_delays.to_csv("atrasos.csv", index=False, sep=';')  # CSV é ~15x mais rápido que XLSX
-folder_path = r"G:\Drives compartilhados\PCP\Time Inovação\Soluções\BI - Painel RH\Bases\Geral"
+
+folder_id = "1fDcVXWg1YJ3xlAer0JmOD59XtryiWR1N"
+download_dir = os.path.join(path_script, "downloads", "bases_geral")
+folder_path = download_latest_csvs_from_drive(folder_id, download_dir)
+
+if folder_path is None:
+    fallback_path = r"G:\Drives compartilhados\PCP\Time Inovação\Soluções\BI - Painel RH\Bases\Geral"
+    if os.path.exists(fallback_path):
+        print("Aviso: Falha ao baixar bases do Drive. Usando caminho de rede como fallback.")
+        folder_path = fallback_path
+    else:
+        print(f"Erro crítico: Falha ao baixar bases do Drive e fallback {fallback_path} inacessível.")
+        folder_path = None
+
 df_csvs = combine_latest_csvs(folder_path)
 df_csvs.to_csv("csvs.csv", index=False)  # CSV é ~15x mais rápido que XLSX
 print(df_csvs)
@@ -382,8 +401,14 @@ print(df_csvs)
 if df_csvs is not None and not df_delays.empty:
     df_csvs = mark_delays_in_csv(df_csvs, df_delays)
     df_csvs.to_csv("final.csv", index=False, sep=';') # Salva para o processar_infracoes.py
-    df_csvs.to_excel("final.xlsx", index=False)
-    df_csvs.to_excel(r"C:\Users\Sirtec\arquivos_teste\E-mail\final.xlsx", index=False) ##G:\Drives compartilhados\PCP\Time Inovação\Soluções\BI - Painel RH\Bases\E-mail
+    df_csvs.to_excel("final_TESTE.xlsx", index=False)
+    
+    # Salvar localmente e fazer upload final_TESTE.xlsx para o drive
+    file_teste_path = "final_TESTE.xlsx"
+    df_csvs.to_excel(file_teste_path, index=False)
+    folder_id_email = "15CIGno6aVWxS1bwLktXelmFY-WGXdv3R"
+    upload_file_to_drive(file_teste_path, folder_id_email)
+    
     print(df_csvs)
 else:
     print("Erro: Arquivo CSV ou dados de atraso não encontrados.")
@@ -480,7 +505,7 @@ except Exception as e:
 #try:  
     # Atualizar planilha de robôs no drive
 #    print("#Atualizando planilha de robôs no drive")
-#    json = path_script + "\\chaveGoogle.json"
+#    json = os.path.join(path_script, "chaveGoogle.json")
 #    id_plan_att = "1lM8Q3NIUrDsdR8OD_6RG0wAddXvq1PpWczuOUeOyivE" # planilha de robôs no drive
 #    aba_att = "Att_email_infracoes"
     

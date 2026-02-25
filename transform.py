@@ -128,8 +128,7 @@ def gerar_raking_top5_ontem(df, operacao):
     return df_ranking
 
 def gerar_raking_top5_mensal(df, operacao):
-
-    
+        
     df[COL_INICIO_PERIODO] = pd.to_datetime(df[COL_INICIO_PERIODO], dayfirst=True, errors="coerce")
     
 
@@ -152,9 +151,10 @@ def gerar_raking_top5_mensal(df, operacao):
         df_dia_anterior
         .groupby([COL_OPER, COL_MATRICULA, COL_NAME], as_index=False)[[COL_10_TRABALHO, COL_11_ENTREJORNADA, COL_MENOR_PREVISTO, COL_7_INFRACAO, COL_BATIDAS_PONTOS_ERRADOS, COL_ATRASOS, COL_INFR_C_ATRASO]]
         .sum()
-        .sort_values(by= COL_INFR_C_ATRASO, ascending=False)
-        .head(5)
+        .sort_values(by= [COL_INFR_C_ATRASO,COL_MATRICULA, COL_NAME], ascending=[False, False, False])
     )
+
+    df_ranking = df_ranking.nlargest(5, COL_INFR_C_ATRASO, keep='all')
 
     df_ranking = df_ranking.rename(columns={
         COL_11_ENTREJORNADA: "-11hrs entre jornada",
@@ -165,7 +165,7 @@ def gerar_raking_top5_mensal(df, operacao):
         COL_INFR_C_ATRASO: "Qtd Total"
     })
     
-    df_ranking = df_ranking.sort_values(by=[COL_MATRICULA, COL_NAME], ascending=[True ,False, False])
+    #df_ranking = df_ranking.sort_values(by=[COL_MATRICULA, COL_NAME], ascending=[True ,False, False])
 
     return df_ranking
 

@@ -18,12 +18,9 @@ chaveGoogle.json
 *.pyo
 *.pyd
 *.xlsx
-
-atrasos.csv
-csvs.csv
-final.csv
-BD.csv
-BD_RES.csv
+*.xlsm
+*.csv
+*.xls
 
 # Diretórios e imagens geradas
 /docs/

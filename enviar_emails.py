@@ -35,16 +35,28 @@ docx_dir = os.path.join(path_script, "downloads", "docx_templates")
 # Baixar os templates do drive 
 download_docx_from_drive(folder_id_docx, docx_dir)
 
+#operations_list = [
+    #Operations("RS", list_rs,"", os.path.join(docx_dir, "RS.docx"), os.path.join("downloads", "images", "RS")),
+    #Operations("CE", list_ce,"", os.path.join(docx_dir, "CEARÁ.docx"), os.path.join("downloads", "images", "CE")),
+    #Operations("VTC", list_sudoeste,"", os.path.join(docx_dir, "SUDOESTE VDC.docx"), os.path.join("downloads", "images", "BA Sudoeste")),
+    #Operations("BAR", list_extremo_oeste,"", os.path.join(docx_dir, "EXTREMO OESTE BAR.docx"), os.path.join("downloads", "images", "BA Barreiras")),
+    #Operations("FRS", list_centro,"", os.path.join(docx_dir, "CENTRO FRS.docx"), os.path.join("downloads", "images", "BA Centro")),
+    #Operations("PEL", list_pel_poa,"", os.path.join(docx_dir, "PELOTAS.docx"), os.path.join("downloads", "images", "PEL")),
+    #Operations("BJL", list_oeste,"", os.path.join(docx_dir, "OESTE GUA-BJL.docx"), os.path.join("downloads", "images", "BA Bom Jesus da Lapa")),
+    #Operations("POA", list_pel_poa,"", os.path.join(docx_dir, "POA.docx"), os.path.join("downloads", "images", "POA")),
+    #Operations("SP", list_ourinhos, "", os.path.join(docx_dir, "SP.docx"), os.path.join("downloads", "images", "OURINHOS"))
+#]
+
 operations_list = [
-    Operations("RS", list_rs,"", os.path.join(docx_dir, "RS.docx"), os.path.join("downloads", "images", "RS")),
-    Operations("CE", list_ce,"", os.path.join(docx_dir, "CEARÁ.docx"), os.path.join("downloads", "images", "CE")),
-    Operations("VTC", list_sudoeste,"", os.path.join(docx_dir, "SUDOESTE VDC.docx"), os.path.join("downloads", "images", "BA Sudoeste")),
-    Operations("BAR", list_extremo_oeste,"", os.path.join(docx_dir, "EXTREMO OESTE BAR.docx"), os.path.join("downloads", "images", "BA Barreiras")),
-    Operations("FRS", list_centro,"", os.path.join(docx_dir, "CENTRO FRS.docx"), os.path.join("downloads", "images", "BA Centro")),
-    Operations("PEL", list_pel_poa,"", os.path.join(docx_dir, "PELOTAS.docx"), os.path.join("downloads", "images", "PEL")),
-    Operations("BJL", list_oeste,"", os.path.join(docx_dir, "OESTE GUA-BJL.docx"), os.path.join("downloads", "images", "BA Bom Jesus da Lapa")),
-    Operations("POA", list_pel_poa,"", os.path.join(docx_dir, "POA.docx"), os.path.join("downloads", "images", "POA")),
-    Operations("SP", list_ourinhos, "", os.path.join(docx_dir, "SP.docx"), os.path.join("downloads", "images", "OURINHOS"))
+    Operations("RS", "","", os.path.join(docx_dir, "RS.docx"), os.path.join("downloads", "images", "RS")),
+    Operations("CE", "","", os.path.join(docx_dir, "CEARÁ.docx"), os.path.join("downloads", "images", "CE")),
+    Operations("VTC", "","", os.path.join(docx_dir, "SUDOESTE VDC.docx"), os.path.join("downloads", "images", "BA Sudoeste")),
+    Operations("BAR", "","", os.path.join(docx_dir, "EXTREMO OESTE BAR.docx"), os.path.join("downloads", "images", "BA Barreiras")),
+    Operations("FRS", "","", os.path.join(docx_dir, "CENTRO FRS.docx"), os.path.join("downloads", "images", "BA Centro")),
+    Operations("PEL", "","", os.path.join(docx_dir, "PELOTAS.docx"), os.path.join("downloads", "images", "PEL")),
+    Operations("BJL", "","", os.path.join(docx_dir, "OESTE GUA-BJL.docx"), os.path.join("downloads", "images", "BA Bom Jesus da Lapa")),
+    Operations("POA", "","", os.path.join(docx_dir, "POA.docx"), os.path.join("downloads", "images", "POA")),
+    Operations("SP", "", "", os.path.join(docx_dir, "SP.docx"), os.path.join("downloads", "images", "OURINHOS"))
 ]
 
 manager = OperationsManager(operations_list)
@@ -57,8 +69,8 @@ for op in operations_list:
     nome_unidade = os.path.basename(op.images_path)
     
     sender.send_email(
-        to_list=op.email,
-        cc_list=list_todas_operacoes,
+        to_list=["ricardo.souza@sirtec.com.br"],
+        cc_list=[],
         image_path=os.path.join('imagem', f'imagens_{op.operation}'),
         image_base_path_downloads=os.path.join('downloads', 'images', op.operation),
         subject=f'Ocorrências de ponto Sirtec - {nome_unidade}'

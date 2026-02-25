@@ -1,0 +1,28 @@
+/.venv
+/__pycache__
+service_account.json
+chaveGoogle.json
+*.log
+
+# Ignorar todos os arquivos do Word
+*.docx
+*.doc
+
+# Ignorar planilhas (caso você gere .xlsx ou .csv locais)
+*.xlsx
+*.xls
+*.png
+*.jpg
+*.jpeg
+
+atrasos.csv
+csvs.csv
+final.csv
+BD.csv
+BD_RES.csv
+
+# Diretórios e imagens geradas
+/docs/
+/imagem/
+/downloads/images/
+/downloads/jornadas/

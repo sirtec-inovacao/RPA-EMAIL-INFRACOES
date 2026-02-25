@@ -9,7 +9,6 @@ chaveGoogle.json
 *.doc
 
 # Ignorar planilhas (caso você gere .xlsx ou .csv locais)
-*.xlsx
 *.xls
 *.png
 *.jpg
@@ -17,13 +16,19 @@ chaveGoogle.json
 *.pyc
 *.pyo
 *.pyd
-*.xlsx
+#*.xlsx
 *.xlsm
 *.csv
 *.xls
+src/collaborators_data.xlsx
+src/ponto_mais/analysis/Analise_Excel/BD_Config.xlsx
+src/ponto_mais/analysis/Analise_Excel/Analise.xlsx
+src/testar.xlsx
 
 # Diretórios e imagens geradas
-/docs/
-/imagem/
-/downloads/images/
-/downloads/jornadas/
+docs/
+imagem/
+downloads/images/
+downloads/jornadas/
+ponto_mais/analysis/
+ponto_mais/analysis/Analise_Excel/

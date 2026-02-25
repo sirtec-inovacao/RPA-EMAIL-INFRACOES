@@ -7,7 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
 path_script = os.path.dirname(os.path.abspath(__file__))
-path_credenciais_json = path_script + "\\chaveGoogle.json"
+path_credenciais_json = os.path.join(path_script, "chaveGoogle.json")
 
 
 class Gsheets:

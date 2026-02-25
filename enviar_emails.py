@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from src.ponto_mais.utilities.operation.operations import Operations
 from src.ponto_mais.utilities.operation.operations_manager import OperationsManager
 from src.ponto_mais.utilities.delete.folders.delete_folders import delete_folders
-from src.ponto_mais.analysis.Analise_Excel import analise_file
+# from src.ponto_mais.analysis.Analise_Excel import analise_file
 from src.ponto_mais.utilities.email.email_manager import EmailSender
 from src.teste_sirtec import pdf_to_images
 import pandas as pd

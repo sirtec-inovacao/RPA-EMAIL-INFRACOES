@@ -29,13 +29,13 @@ download_docx_from_drive(folder_id_docx, docx_dir)
 operations_list = [
     Operations("RS", "","", os.path.join(docx_dir, "RS.docx"), os.path.join("downloads", "images", "RS")),
     Operations("CE", "","", os.path.join(docx_dir, "CEARÁ.docx"), os.path.join("downloads", "images", "CE")),
-    Operations("VTC","","", os.path.join(docx_dir, "SUDOESTE VDC.docx"), os.path.join("downloads", "images", "VTC")),
-    Operations("BAR","","", os.path.join(docx_dir, "EXTREMO OESTE BAR.docx"), os.path.join("downloads", "images", "BAR")),
-    Operations("FRS","","", os.path.join(docx_dir, "CENTRO FRS.docx"), os.path.join("downloads", "images", "FRS")),
+    Operations("VTC","","", os.path.join(docx_dir, "SUDOESTE VDC.docx"), os.path.join("downloads", "images", "BA Sudoeste")),
+    Operations("BAR","","", os.path.join(docx_dir, "EXTREMO OESTE BAR.docx"), os.path.join("downloads", "images", "BA Barreiras")),
+    Operations("FRS","","", os.path.join(docx_dir, "CENTRO FRS.docx"), os.path.join("downloads", "images", "BA Centro")),
     Operations("PEL","","", os.path.join(docx_dir, "PELOTAS.docx"), os.path.join("downloads", "images", "PEL")),
-    Operations("BJL","" ,"", os.path.join(docx_dir, "OESTE GUA-BJL.docx"), os.path.join("downloads", "images", "BJL")),
+    Operations("BJL","" ,"", os.path.join(docx_dir, "OESTE GUA-BJL.docx"), os.path.join("downloads", "images", "BA Bom Jesus da Lapa")),
     Operations("POA","", "", os.path.join(docx_dir, "POA.docx"), os.path.join("downloads", "images", "POA")),
-    Operations("SP", "", "", os.path.join(docx_dir, "SP.docx"), os.path.join("downloads", "images", "SP"))
+    Operations("SP", "", "", os.path.join(docx_dir, "SP.docx"), os.path.join("downloads", "images", "OURINHOS"))
 ]
 
 manager = OperationsManager(operations_list)

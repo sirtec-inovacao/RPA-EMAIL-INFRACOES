@@ -25,6 +25,7 @@ src/ponto_mais/analysis/Analise_Excel/BD_Config.xlsx
 src/ponto_mais/analysis/Analise_Excel/Analise.xlsx
 src/testar.xlsx
 
+test_debug_emails.py
 # Diretórios e imagens geradas
 docs/
 imagem/

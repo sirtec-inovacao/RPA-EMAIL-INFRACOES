@@ -306,7 +306,7 @@ def gerar_bd_completo():
 
     df_BD["Data"] = pd.to_datetime(df_BD["Data"], dayfirst=True, errors="coerce").dt.strftime("%d/%m/%Y")
     df_BD["Inicio Período"] = pd.to_datetime(df_BD["Inicio Período"], errors="coerce").dt.strftime("%d/%m/%Y")
-
+    df_BD["Batidas de ponto errados"] = df_BD["Batidas de ponto errados"].astype(int)
 
 
     print(df_BD.info())

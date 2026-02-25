@@ -109,7 +109,7 @@ def gerar_raking_top5_ontem(df, operacao):
         .groupby([COL_OPER, COL_MATRICULA, COL_NAME, COL_DATE], as_index=False)
         [[COL_10_TRABALHO, COL_11_ENTREJORNADA, COL_MENOR_PREVISTO, COL_7_INFRACAO, COL_BATIDAS_PONTOS_ERRADOS, COL_ATRASOS, COL_INFR_C_ATRASO]]
         .sum()
-        .sort_values(by=[COL_MATRICULA, COL_NAME], ascending=[True, True])
+        .sort_values(by=[COL_INFR_C_ATRASO,COL_MATRICULA, COL_NAME, COL_DATE], ascending=[False, True, True,True])
         )
 
     df_filtrado = df_ranking[df_ranking[COL_INFR_C_ATRASO] != 0].copy()
@@ -123,7 +123,7 @@ def gerar_raking_top5_ontem(df, operacao):
         COL_INFR_C_ATRASO: "Qtd total"
     })
 
-    df_ranking = df_ranking.sort_values(by=["Qtd total",COL_MATRICULA, COL_NAME, COL_DATE], ascending=[True, True, True,True]).head(5)
+    #df_ranking = df_ranking.sort_values(by=["Qtd total",COL_MATRICULA, COL_NAME,], ascending=[True, True, True,True]).head(5)
 
     return df_ranking
 
@@ -152,7 +152,7 @@ def gerar_raking_top5_mensal(df, operacao):
         df_dia_anterior
         .groupby([COL_OPER, COL_MATRICULA, COL_NAME], as_index=False)[[COL_10_TRABALHO, COL_11_ENTREJORNADA, COL_MENOR_PREVISTO, COL_7_INFRACAO, COL_BATIDAS_PONTOS_ERRADOS, COL_ATRASOS, COL_INFR_C_ATRASO]]
         .sum()
-        .sort_values(COL_INFR_C_ATRASO, ascending=False)
+        .sort_values(by= COL_INFR_C_ATRASO, ascending=False)
         .head(5)
     )
 
@@ -165,7 +165,7 @@ def gerar_raking_top5_mensal(df, operacao):
         COL_INFR_C_ATRASO: "Qtd Total"
     })
     
-    df_ranking = df_ranking.sort_values(["Qtd Total",COL_MATRICULA, COL_NAME], ascending=[True ,False, False])
+    df_ranking = df_ranking.sort_values(by=[COL_MATRICULA, COL_NAME], ascending=[True ,False, False])
 
     return df_ranking
 
@@ -180,7 +180,7 @@ def resumo_infrações_10hrs_11entrejornada(df, operacao):
         df_filtro
         .groupby([COL_EQUIPE], as_index=False)
         .agg({COL_NAME_BD_RES: 'count', COL_MENOR20: 'sum'})
-        .sort_values(COL_EQUIPE, ascending=False)
+        .sort_values(by=COL_EQUIPE, ascending=False)
     )
 
     df_resumo = df_resumo.rename(columns={
@@ -212,7 +212,7 @@ def resumo_bd_res(df,operacao):
 
     df_select = df_select[[COL_NAME,COL_EQUIPE,COL_DATE_RES,COL_OCORRENCIA,COL_HORA]]
 
-    df_select = df_select.sort_values([COL_NAME, COL_DATE_RES], ascending=[True, False])
+    df_select = df_select.sort_values(by=[COL_NAME, COL_DATE_RES], ascending=[True, False])
 
     return df_select
 

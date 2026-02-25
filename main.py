@@ -400,7 +400,7 @@ print(df_csvs)
 
 if df_csvs is not None and not df_delays.empty:
     df_csvs = mark_delays_in_csv(df_csvs, df_delays)
-    df_csvs.to_csv("final.csv", index=False, sep=';') # Salva para o processar_infracoes.py
+    df_csvs.to_csv("final.csv", index=False, sep=';', encoding='utf-8-sig')
     df_csvs.to_excel("final_TESTE.xlsx", index=False)
     
     # Salvar localmente e fazer upload final_TESTE.xlsx para o drive

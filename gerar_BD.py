@@ -94,8 +94,8 @@ def gerar_bd_completo():
     #     print("Erro: Arquivo final.csv não encontrado.")
     #     return None
 
-    #df_final = pd.read_csv('final.csv', sep=';', encoding='utf-8-sig')
-    df_final = pd.read_excel("final_teste.xlsx")
+    df_final = pd.read_csv('final.csv', sep=';', encoding='utf-8-sig')
+    #df_final = pd.read_excel("final_teste.xlsx")
     
 
     # Caminho da pasta de rede e Integração API Google Drive

@@ -37,10 +37,9 @@ jobs:
         run: |
           echo "$GOOGLE_API_CREDENTIALS" > chaveGoogle.json
 
-      - name: 1. Processo RPA (main.py) - Comentado
+      - name: 1. Processo RPA (main.py)
         run: |
-          echo "Processo RPA (main.py) foi comentado temporariamente."
-          # python main.py
+          python main.py
 
       - name: 2. Processar Bases Intermediárias (gerar_BD.py)
         run: python gerar_BD.py

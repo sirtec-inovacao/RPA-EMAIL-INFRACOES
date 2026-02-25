@@ -45,10 +45,12 @@ manager.process_images('downloads/images/')
 sender = EmailSender()
 
 for op in operations_list:
+    nome_unidade = os.path.basename(op.images_path)
+    
     sender.send_email(
         to_list=test_list,
         cc_list=[],            # Cópia
         image_path=os.path.join('imagem', f'imagens_{op.operation}'),      # ← Imagens dos PDFs
         image_base_path_downloads=os.path.join('downloads', 'images', op.operation),  # ← Imagens do .docx
-        subject=f'Ocorrências de ponto Sirtec - {op.operation} V3'
+        subject=f'Ocorrências de ponto Sirtec - {nome_unidade}'
     )

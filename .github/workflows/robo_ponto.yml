@@ -1,12 +1,12 @@
-name: Robô Email Infrações - Execução
+name: Robô Email Infrações
 
 on:
   # Permite rodar manualmente pelo painel do GitHub "Actions" -> "Run workflow"
   workflow_dispatch:
 
   # Exemplo de CRON: Rodar automaticamente (descomente as linhas abaixo se quiser agendar)
-  # schedule:
-  #   - cron: "0 8 * * 1" # Toda segunda-feira às 08:00 (UTC)
+  schedule:
+    - cron: "0 17 * * 1-5" # De segunda a sexta às 17:00 (UTC) / 14:00 (BRT)
 
 jobs:
   run-robot:

@@ -15,6 +15,7 @@ from playwright.sync_api import sync_playwright
 from google.oauth2.service_account import Credentials
 import google.auth.transport.requests
 import io
+from googleapiclient.discovery import build
 
 from functions.delete_folders import delete_folders
 from functions.clear_terminal import clear_terminal
@@ -29,8 +30,8 @@ if os.name == 'nt':
 Config
 """
 
-
 path_script = os.path.dirname(os.path.abspath(__file__))
+
 gsheets = Gsheets()
 
 acessos = gsheets.pegar_dados_aba_access()
@@ -318,24 +319,20 @@ def combine_latest_csvs(folder_path):
     def get_latest_csvs(folder_path):
         current_date = datetime.now()
         csv_files = glob.glob(os.path.join(folder_path, '*.csv'))
+        print(csv_files)
         valid_files = []
 
         for file in csv_files:
             filename = os.path.basename(file)
             try:
-                # Extrai a data do nome do arquivo (formato YYYY-MM)
                 date = datetime.strptime(filename.split('.')[0], '%Y-%m')
                 if date <= current_date:
-                    # Adiciona à lista de arquivos válidos com o nome do arquivo e a data
                     valid_files.append((date, file))
             except ValueError:
-                # Ignora arquivos com nomes que não seguem o formato esperado
                 continue
 
-        # Ordena os arquivos por data em ordem decrescente
         valid_files.sort(reverse=True, key=lambda x: x[0])
 
-        # Retorna os dois arquivos mais recentes, ou None se não houver suficientes
         if len(valid_files) >= 2:
             return valid_files[0][1], valid_files[1][1]
         elif len(valid_files) == 1:
@@ -363,21 +360,21 @@ def combine_latest_csvs(folder_path):
         print("Erro ao ler CSV:", e)
         return None
 
-# Função principal para marcar atrasos no df_csvs
 def mark_delays_in_csv(df_csvs, df_delays):
-    df_csvs['Atraso'] = 0
-    for _, row in df_delays.iterrows():
-        print(row)
-        data = row['Data']
-        nome = row['Nome']
-        mask = (df_csvs['Data'] == data) & (df_csvs['Nome'] == nome)
-        df_csvs.loc[mask, 'Atraso'] = 1
+
+    atrasos = df_delays[['Data', 'Nome']].drop_duplicates()
+    atrasos['Atraso'] = 1
+    
+    df_csvs = df_csvs.merge(atrasos, on=['Data', 'Nome'], how='left')
+    
+    df_csvs['Atraso'] = df_csvs['Atraso'].fillna(0).astype(int)
+
+        
     return df_csvs
 
-# Uso do código
 excel_files = get_files("downloads/jornadas/", ".csv")
 df_delays = process_delays(excel_files)
-df_delays.to_csv("atrasos.csv", index=False, sep=';')  # CSV é ~15x mais rápido que XLSX
+df_delays.to_csv("atrasos.csv", index=False, sep=';', encoding='utf-8-sig')
 
 folder_id = "1fDcVXWg1YJ3xlAer0JmOD59XtryiWR1N"
 download_dir = os.path.join(path_script, "downloads", "bases_geral")
@@ -393,7 +390,7 @@ if folder_path is None:
         folder_path = None
 
 df_csvs = combine_latest_csvs(folder_path)
-df_csvs.to_csv("csvs.csv", index=False)  # CSV é ~15x mais rápido que XLSX
+df_csvs.to_csv("csvs.csv", index=False, sep=';', encoding='utf-8-sig')  # CSV é ~15x mais rápido que XLSX
 print(df_csvs)
 
 
@@ -401,10 +398,10 @@ print(df_csvs)
 if df_csvs is not None and not df_delays.empty:
     df_csvs = mark_delays_in_csv(df_csvs, df_delays)
     df_csvs.to_csv("final.csv", index=False, sep=';', encoding='utf-8-sig')
-    df_csvs.to_excel("final_TESTE.xlsx", index=False)
+    df_csvs.to_excel("final.xlsx", index=False)
     
     # Salvar localmente e fazer upload final_TESTE.xlsx para o drive
-    file_teste_path = "final_TESTE.xlsx"
+    file_teste_path = "final.xlsx"
     df_csvs.to_excel(file_teste_path, index=False)
     folder_id_email = "15CIGno6aVWxS1bwLktXelmFY-WGXdv3R"
     upload_file_to_drive(file_teste_path, folder_id_email)
@@ -473,28 +470,28 @@ else:
 
 
 
-from gerar_BD import gerar_bd_completo
-from gerar_BD_RES import gerar_bd_res
-
-try:
-    print("\n" + "="*70)
-    print("PROCESSANDO INFRAÇÕES E GERANDO RELATÓRIOS")
-    print("="*70)
+#from gerar_BD import gerar_bd_completo
+#from gerar_BD_RES import gerar_bd_res
+#
+#try:
+    #print("\n" + "="*70)
+    #print("PROCESSANDO INFRAÇÕES E GERANDO RELATÓRIOS")
+    #print("="*70)
     
     # 1. Gerar BD.csv
-    print("\n📊 Etapa 1: Gerando BD completo...")
-    gerar_bd_completo()
+    #print("\n📊 Etapa 1: Gerando BD completo...")
+    #gerar_bd_completo()
 
     # 2. Gerar BD_RES.csv
-    print("\n� Etapa 2: Gerando BD RES...")
-    gerar_bd_res()
+    #print("\n� Etapa 2: Gerando BD RES...")
+    #gerar_bd_res()
     
 
     
-except Exception as e:
-    print(f"\n❌ Erro ao processar: {e}")
-    import traceback
-    traceback.print_exc()
+#except Exception as e:
+#    print(f"\n Erro ao processar: {e}")
+#    import traceback
+#    traceback.print_exc()
 
 
 # executar envio dos emails  

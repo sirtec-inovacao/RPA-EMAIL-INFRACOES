@@ -16,7 +16,7 @@ chaveGoogle.json
 *.pyc
 *.pyo
 *.pyd
-#*.xlsx
+*.xlsx
 *.xlsm
 *.csv
 *.xls
@@ -24,7 +24,10 @@ src/collaborators_data.xlsx
 src/ponto_mais/analysis/Analise_Excel/BD_Config.xlsx
 src/ponto_mais/analysis/Analise_Excel/Analise.xlsx
 src/testar.xlsx
-
+*.xlsx
+teste_download.py
+teste_main.py
+downloads
 test_debug_emails.py
 # Diretórios e imagens geradas
 docs/

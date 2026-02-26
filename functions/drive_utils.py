@@ -33,8 +33,12 @@ def download_latest_csvs_from_drive(folder_id, download_dir):
 
     # Listar arquivos na pasta (suporte a Drives Compartilhados)
     try:
+
+        query = (
+            f"'{folder_id}' in parents and trashed=false and mimeType != 'application/vnd.google-apps.spreadsheet' and name contains '.csv'"
+        )
         results = service.files().list(
-            q=f"'{folder_id}' in parents and trashed=false and mimeType='text/csv'",
+            q=query,
             fields="nextPageToken, files(id, name, mimeType)",
             pageSize=100,
             supportsAllDrives=True,

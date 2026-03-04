@@ -1,7 +1,7 @@
 /.venv
 /__pycache__
 service_account.json
-chaveGoogle.json
+#chaveGoogle.json
 *.log
 
 # Ignorar todos os arquivos do Word

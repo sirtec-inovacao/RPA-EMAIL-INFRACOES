@@ -64,7 +64,6 @@ for op in operations_list:
         subject=f'Ocorrências de ponto Sirtec - {nome_unidade}'
     )
 
-# atualizar planilha robos
 try:  
     # Atualizar planilha de robôs no drive
     print("#Atualizando planilha de robôs no drive")

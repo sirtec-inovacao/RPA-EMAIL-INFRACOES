@@ -63,3 +63,17 @@ for op in operations_list:
         image_base_path_downloads=os.path.join('downloads', 'images', op.operation),
         subject=f'Ocorrências de ponto Sirtec - {nome_unidade}'
     )
+
+# atualizar planilha robos
+try:  
+    # Atualizar planilha de robôs no drive
+    print("#Atualizando planilha de robôs no drive")
+    json = os.path.join(path_script, "chaveGoogle.json")
+    id_plan_att = "1lM8Q3NIUrDsdR8OD_6RG0wAddXvq1PpWczuOUeOyivE" # planilha de robôs no drive
+    aba_att = "Att_email_infracoes"
+    
+    gsheets.attsheets(json, id_plan_att, aba_att)
+    att = True
+
+except Exception as e:
+    print(f"#Erro ao atualizar planilha de robôs no drive: {e}")
